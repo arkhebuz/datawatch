@@ -70,7 +70,7 @@ while true ; do
         n=0
         carrier=$(<${netinterface}/carrier)
         
-        for ip in ${dns_servers[@]:1:4}; do             # Checking rest of ip's, each two times, right pings total normally.
+        for ip in ${dns_servers[@]:1:4}; do             # Checking rest of ip's, each two times, eight pings total normally.
             i=$(ping -q -w2 -c2 ${ip} | grep -o -P ".{0,2}received" | head -c 1)
             ((n=$n+i))
         done
