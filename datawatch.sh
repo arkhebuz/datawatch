@@ -5,15 +5,16 @@
 # Donate:  DTC: DMy7cMjzWycNUB4FWz2YJEmh8EET2XDvqz
 #          XPM: AV3w57CVmRdEA22qNiY5JFDx1J5wVUciBY
 
-if [ "$#" -ne "2" ] ; then          # Script needs two parameters.
-cat <<-USAGE
+if (($#!=2)) ; then          # Script needs two parameters.
+cat <<-EOF
 USAGE:                    ./datawatch.sh POOL MODE
 DTC pools:                xpool, gpool
 Modes:                    stay, jump
 Example:                  ./datawatch.sh xpool jump
 (xpool - dtc.xpoll.xram.co | gpool - dtc.gpoool.net)
 WARNING: you have to edit script if you haven't do so.
-USAGE
+EOF
+exit
 fi
 
 # Catalog where logs will be stored.
@@ -48,12 +49,12 @@ function minerlaunch {
     ./primeminer -poolip=${ip} -poolport=${port} -poolshare=6 -pooluser=DMy7cMjzWycNUB4FWz2YJEmh8EET2XDvqz -genproclimit="8" -sievesize="1000000" -sieveextensions="10" -sievepercentage="9" 2>&1 | tee -a ${logkat}/${filename} &
 }
 
-# 5 DNS servers for a very "finesse" connection checking... No need to change them.
+# 5 DNS servers for a very "finesse" connection checking... No need to change them and anything beyond this line.
 # First DNS server is checked first - if it's ok, the rest are omnitted.
 declare -A dns_servers=( [google1]=8.8.8.8 [google2]=8.8.4.4 [opendns1]=208.67.222.222 [level3]=209.244.0.3
     [comodo]=8.26.56.26 )
 
-hammer=${1} # DO NOT EDIT
+hammer=${1} # you can't touch this
 
 while true ; do
     # Checking for primeminer process, launching if not found.
@@ -65,11 +66,11 @@ while true ; do
     fi
     
     ping=$(ping -q -w2 -c2 ${dns_servers[google1]} | grep -o -P ".{0,2}received" | head -c 1)
-    if ((1>ping)); then                             # Ping Google to check internet, if problems proceed. 
+    if ((1>=ping)); then                             # Ping Google to check internet, if problems proceed. 
         n=0
         carrier=$(<${netinterface}/carrier)
         
-        for ip in ${dns_servers[@]}; do             # Checking rest of ip's, each two times.
+        for ip in ${dns_servers[@]:1:4}; do             # Checking rest of ip's, each two times, right pings total normally.
             i=$(ping -q -w2 -c2 ${ip} | grep -o -P ".{0,2}received" | head -c 1)
             ((n=$n+i))
         done
@@ -78,7 +79,7 @@ while true ; do
             echo "$(date) : conection problems, only ${n} packets received, carrier = ${carrier}" 2>&1 | tee -a ${logkat}/${filename}
             echo "$(date) : conection problems, only ${n} packets received, carrier = ${carrier}" >> ${logkat}/netlog
         elif ((n==0)) ; then            # Zero pings received, write to logs.
-            echo "$(date) : fatal conection problems - connection lost, carrier = ${carrier}" 2>&1 | tee -a $logkat/${filename}
+            echo "$(date) : fatal conection problems - connection lost, carrier = ${carrier}" 2>&1 | tee -a ${logkat}/${filename}
             echo "$(date) : fatal conection problems - connection lost, carrier = ${carrier}" >> ${logkat}/netlog
         fi
     fi
