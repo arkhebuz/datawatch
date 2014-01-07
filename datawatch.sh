@@ -51,8 +51,7 @@ function minerlaunch {
 
 # 5 DNS servers for a very "finesse" connection checking... No need to change them and anything beyond this line.
 # First DNS server is checked first - if it's ok, the rest are omnitted.
-declare -A dns_servers=( [google1]=8.8.8.8 [google2]=8.8.4.4 [opendns1]=208.67.222.222 [level3]=209.244.0.3
-    [comodo]=8.26.56.26 )
+dns_servers=(8.8.8.8 8.8.4.4 208.67.222.222 209.244.0.3 8.26.56.26)
 
 hammer=${1} # you can't touch this
 
