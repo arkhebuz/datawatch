@@ -64,7 +64,7 @@ while true ; do
         echo "PID: $(pgrep primeminer)"
     fi
     
-    ping=$(ping -q -w2 -c2 ${dns_servers[google1]} | grep -o -P ".{0,2}received" | head -c 1)
+    ping=$(ping -q -w2 -c2 ${dns_servers[0]} | grep -o -P ".{0,2}received" | head -c 1)
     if ((1>=ping)); then                             # Ping Google to check internet, if problems proceed. 
         n=0
         carrier=$(<${netinterface}/carrier)
