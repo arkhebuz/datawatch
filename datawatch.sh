@@ -55,6 +55,13 @@ dns_servers=(8.8.8.8 8.8.4.4 208.67.222.222 209.244.0.3 8.26.56.26)
 
 hammer=${1} # you can't touch this
 
+# Exit if primeminer is already running.
+islive=$(pgrep primeminer)
+if [ -n "${islive}" ] ; then
+    echo "Warning: primeminer is already running (PID: ${islive}), exiting."
+    exit
+fi
+
 while true ; do
     # Checking for primeminer process, launching if not found.
     islive=$(pgrep primeminer)
