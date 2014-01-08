@@ -30,7 +30,7 @@ Note that automatic pool switching on errors can save you from downtime caused b
 * In jump mode script should be able to change pool if miner can't connect at all to it at the very beginning, I hope.
 * Dependencies? Primeminer, pkill, pgrep, bash, grep, sed, ping... Nothing special.
 * Aha, works for me. May not work for you. Tested on Debian Wheezy.
-* Thread on [bitcointalk.org](https://bitcointalk.org/index.php?topic=390911.0).
+* Thread on ( [bitcointalk.org](https://bitcointalk.org/index.php?topic=390911.0) | [datacointalk.org](https://datacointalk.org/index.php?topic=112.0) )
 * Donate? Just a tip maybe?  
    DTC: DMy7cMjzWycNUB4FWz2YJEmh8EET2XDvqz  
    XPM: AV3w57CVmRdEA22qNiY5JFDx1J5wVUciBY  
